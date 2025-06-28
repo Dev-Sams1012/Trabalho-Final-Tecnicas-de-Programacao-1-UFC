@@ -1,18 +1,21 @@
 package ufc.dc.tp1.app.itens;
 
+import ufc.dc.tp1.app.itens.enums.Conservação;
+import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
+
 public abstract class Item {
 	private String id;
 	private String cor;
-	private String loja_origem;
-	private Conservacao conservacao;
-	private ParteDoCorpo parte_do_corpo;
+	private String lojaOrigem;
+	private Conservação conservacao;
+	private CategoriaRoupa parteDoCorpo;
 
-	public Item(String id, String cor, String loja, Conservacao conservacao, ParteDoCorpo parte_do_corpo) {
+	public Item(String id, String cor, String loja, Conservação conservacao, CategoriaRoupa parte_do_corpo) {
 		this.id = id;
 		this.cor = cor;
-		this.loja_origem = loja;
+		this.lojaOrigem = loja;
 		this.conservacao = conservacao;
-		this.parte_do_corpo = parte_do_corpo;
+		this.parteDoCorpo = parte_do_corpo;
 	}
 
 	public String getId() {
@@ -24,15 +27,21 @@ public abstract class Item {
 	}
 	
 	public String getLojaOrigem() {
-		return loja_origem;
+		return lojaOrigem;
 	}
 
-	public Conservacao getConservacao() {
+	public Conservação getConservacao() {
 		return conservacao;
 	}
 	
-	public ParteDoCorpo getParteDoCorpo() {
-		return parte_do_corpo;
+	public CategoriaRoupa getParteDoCorpo() {
+		return parteDoCorpo;
+	}
+
+	@Override
+	public String toString() {
+		return "Item [id= " + id + ", cor= " + cor + ", lojaOrigem= " + lojaOrigem + ", conservacao= " + conservacao
+				+ ", parteDoCorpo= " + parteDoCorpo + "]";
 	}
 
 	
