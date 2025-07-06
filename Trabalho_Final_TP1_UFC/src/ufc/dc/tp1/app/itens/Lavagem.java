@@ -5,14 +5,15 @@ import java.util.List;
 
 public class Lavagem {
 	private String data;
-	private List<ILavavel> itensLavados = new ArrayList<>();
+	private List<ILavavel> itensLavados;
 	
 	public Lavagem(String data) {
         if (data == null || data.isBlank()) {
             throw new IllegalArgumentException("Data da lavagem não pode ser nula ou vazia.");
         }
         this.data = data;
-    }
+        this.itensLavados = new ArrayList<>();
+	}
 	
 	public List<Item> lavarItens(List<Item> itens) {
         List<Item> itensNaoLavaveis = new ArrayList<>();

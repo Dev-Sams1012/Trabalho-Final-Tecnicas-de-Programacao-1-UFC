@@ -20,17 +20,17 @@ public class Look {
 	    if (itens == null || itens.length == 0) return;
 
 	    for (Item item : itens) {
-	        if (item != null && item.getParteDoCorpo() != null) {
-	            if (!roupas.containsKey(item.getParteDoCorpo())) {
-	                roupas.put(item.getParteDoCorpo(), item);
+	        if (item != null && item.getCategoria() != null) {
+	            if (!roupas.containsKey(item.getCategoria())) {
+	                roupas.put(item.getCategoria(), item);
 	            }
 	        }
 	    }
 	}
 	
 	public boolean modificarItem(Item item) {
-		if(item == null || !roupas.containsKey(item.getParteDoCorpo())) return false;
-		this.roupas.put(item.getParteDoCorpo(), item);
+		if(item == null || !roupas.containsKey(item.getCategoria())) return false;
+		this.roupas.put(item.getCategoria(), item);
 		return true;
 	}
 	

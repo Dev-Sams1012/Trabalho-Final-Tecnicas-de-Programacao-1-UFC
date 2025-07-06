@@ -8,14 +8,20 @@ public abstract class Item {
 	private String cor;
 	private String lojaOrigem;
 	private Conservação conservacao;
-	private CategoriaRoupa parteDoCorpo;
+	private CategoriaRoupa categoria;
 
-	public Item(String id, String cor, String loja, Conservação conservacao, CategoriaRoupa parte_do_corpo) {
+	public Item(String id, String cor, String loja, Conservação conservacao, CategoriaRoupa categoria) {
+		if (id == null || id.isBlank()) throw new IllegalArgumentException("ID não pode ser nulo ou vazio.");
+		if (cor == null || cor.isBlank()) throw new IllegalArgumentException("Cor não pode ser nula ou vazia.");
+		if (loja == null || loja.isBlank()) throw new IllegalArgumentException("Loja não pode ser nula ou vazia.");
+		if (conservacao == null) throw new IllegalArgumentException("Conservação não pode ser nula.");
+		if (categoria == null) throw new IllegalArgumentException("Categoria de Roupa não pode ser nula.");
+		
 		this.id = id;
 		this.cor = cor;
 		this.lojaOrigem = loja;
 		this.conservacao = conservacao;
-		this.parteDoCorpo = parte_do_corpo;
+		this.categoria = categoria;
 	}
 
 	public String getId() {
@@ -34,14 +40,14 @@ public abstract class Item {
 		return conservacao;
 	}
 	
-	public CategoriaRoupa getParteDoCorpo() {
-		return parteDoCorpo;
+	public CategoriaRoupa getCategoria() {
+		return categoria;
 	}
 
 	@Override
 	public String toString() {
 		return "Item [id= " + id + ", cor= " + cor + ", lojaOrigem= " + lojaOrigem + ", conservacao= " + conservacao
-				+ ", parteDoCorpo= " + parteDoCorpo + "]";
+				+ ", parteDoCorpo= " + categoria + "]";
 	}
 
 	
