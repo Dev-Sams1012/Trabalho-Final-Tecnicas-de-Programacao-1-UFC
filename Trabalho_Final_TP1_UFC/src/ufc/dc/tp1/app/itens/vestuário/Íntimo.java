@@ -34,7 +34,7 @@ public class Íntimo extends Item implements ILavavel {
 	@Override
 	public String toString() {
 		return "Item [id=" + getId() + ", cor=" + getCor() + ", lojaOrigem=" + getLojaOrigem() + ", conservacao=" + getConservacao()
-				+ ", parteDoCorpo=" + getParteDoCorpo() + ", tamanho= " + getTamanho() + "]";
+				+ ", parteDoCorpo=" + getCategoria() + ", tamanho= " + getTamanho() + "]";
 	}
 	
 }
