@@ -1,5 +1,6 @@
 package ufc.dc.tp1.app.itens.vestuário;
 
+import ufc.dc.tp1.app.exceptions.DevolucaoSemEmprestimoException;
 import ufc.dc.tp1.app.itens.IEmprestavel;
 import ufc.dc.tp1.app.itens.ILavavel;
 import ufc.dc.tp1.app.itens.Item;
@@ -7,7 +8,7 @@ import ufc.dc.tp1.app.itens.enums.Conservação;
 import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
 import ufc.dc.tp1.app.itens.enums.Tamanho;
 
-public abstract class VestimentaSuperiorExterno extends Item implements ILavavel, IEmprestavel {
+public abstract class VestimentaSuperiorExterno extends Item implements IEmprestavel, ILavavel {
 	
 	private Tamanho tamanho;
 	private int diasDeEmprestimo = 0;
@@ -38,7 +39,8 @@ public abstract class VestimentaSuperiorExterno extends Item implements ILavavel
 	}
 
 	@Override
-	public void registrarDevolucao() {
+	public void registrarDevolucao() throws DevolucaoSemEmprestimoException {
+		if(emprestada == false) throw new DevolucaoSemEmprestimoException(getId());
 		emprestada = false;
 		diasDeEmprestimo = 0;
 	}
@@ -57,7 +59,7 @@ public abstract class VestimentaSuperiorExterno extends Item implements ILavavel
 	@Override
 	public String toString() {
 		return "Item [id= " + getId() + ", cor= " + getCor() + ", lojaOrigem= " + getLojaOrigem() + ", conservacao= " + getConservacao()
-				+ ", parteDoCorpo= " + getParteDoCorpo() + ", tamanho= " + getTamanho() + "]";
+				+ ", parteDoCorpo= " + getCategoria() + ", tamanho= " + getTamanho() + "]";
 	}
 	
 	

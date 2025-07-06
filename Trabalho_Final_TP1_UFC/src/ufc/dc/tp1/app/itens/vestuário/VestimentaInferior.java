@@ -1,12 +1,13 @@
 package ufc.dc.tp1.app.itens.vestuário;
 
+import ufc.dc.tp1.app.exceptions.DevolucaoSemEmprestimoException;
 import ufc.dc.tp1.app.itens.IEmprestavel;
 import ufc.dc.tp1.app.itens.ILavavel;
 import ufc.dc.tp1.app.itens.Item;
 import ufc.dc.tp1.app.itens.enums.Conservação;
 import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
 
-public class VestimentaInferior extends Item implements ILavavel, IEmprestavel {
+public class VestimentaInferior extends Item implements IEmprestavel, ILavavel {
 	
 	private int tamanho;
 	private int diasDeEmprestimo = 0;
@@ -37,7 +38,8 @@ public class VestimentaInferior extends Item implements ILavavel, IEmprestavel {
 	}
 
 	@Override
-	public void registrarDevolucao() {
+	public void registrarDevolucao() throws DevolucaoSemEmprestimoException {
+		if(emprestada == false) throw new DevolucaoSemEmprestimoException(getId());
 		emprestada = false;
 		diasDeEmprestimo = 0;
 	}
@@ -56,7 +58,7 @@ public class VestimentaInferior extends Item implements ILavavel, IEmprestavel {
 	@Override
 	public String toString() {
 		return "Item [id= " + getId() + ", cor= " + getCor() + ", lojaOrigem= " + getLojaOrigem() + ", conservacao= " + getConservacao()
-				+ ", parteDoCorpo= " + getParteDoCorpo() + ", tamanho= " + getTamanho() + "]";
+				+ ", parteDoCorpo= " + getCategoria() + ", tamanho= " + getTamanho() + "]";
 	}
 	
 }

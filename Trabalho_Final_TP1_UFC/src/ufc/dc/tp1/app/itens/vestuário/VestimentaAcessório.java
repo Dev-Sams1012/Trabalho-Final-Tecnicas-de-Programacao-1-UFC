@@ -5,6 +5,8 @@ import ufc.dc.tp1.app.itens.Item;
 import ufc.dc.tp1.app.itens.enums.Conservação;
 import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
 
+import ufc.dc.tp1.app.exceptions.DevolucaoSemEmprestimoException;
+
 public abstract class VestimentaAcessório extends Item implements IEmprestavel {
 	
 	private int diasDeEmprestimo = 0;
@@ -30,7 +32,8 @@ public abstract class VestimentaAcessório extends Item implements IEmprestavel 
 	}
 
 	@Override
-	public void registrarDevolucao() {
+	public void registrarDevolucao() throws DevolucaoSemEmprestimoException {
+		if(emprestada == false) throw new DevolucaoSemEmprestimoException(getId());
 		emprestada = false;
 		diasDeEmprestimo = 0;
 	}
