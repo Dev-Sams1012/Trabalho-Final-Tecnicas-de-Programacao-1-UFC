@@ -1,16 +1,15 @@
 package ufc.dc.tp1.app.gui;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
 import ufc.dc.tp1.app.itens.Item;
 import ufc.dc.tp1.app.itens.enums.*;
 import ufc.dc.tp1.app.itens.vestuário.*;
@@ -20,7 +19,7 @@ public class PainelItem extends JPanel {
     
     private List<Item> listaItens = new ArrayList<>();
     private final File arquivo = new File("itens.dat"); 
-    private JPanel painelCartoes;
+    private final JPanel painelCartoes;
     private JDialog dialogAdicionar;
 
     public PainelItem() {
@@ -120,9 +119,9 @@ public class PainelItem extends JPanel {
         painelDetalhes.add(new JLabel("Conservação:"));
         painelDetalhes.add(new JLabel(item.getConservacao().toString()));
 
-        if (item instanceof VestimentaCalcado) {
+        if (item instanceof VestimentaCalcado vestimentaCalcado) {
             painelDetalhes.add(new JLabel("Tamanho (numérico):"));
-            painelDetalhes.add(new JLabel(String.valueOf(((VestimentaCalcado)item).getTamanho())));
+            painelDetalhes.add(new JLabel(String.valueOf(vestimentaCalcado.getTamanho())));
         } else if (item instanceof VestimentaSuperiorExterno || item instanceof VestimentaSuperiorInterno || item instanceof VestimentaIntima) {
             painelDetalhes.add(new JLabel("Tamanho (padrão):"));
             painelDetalhes.add(new JLabel(((VestimentaTamanhoEnum)item).getTamanho().toString()));
@@ -194,22 +193,15 @@ public class PainelItem extends JPanel {
         });
 
         botaoSalvar.addActionListener(e -> {
-            System.out.println("[DEBUG] Botão 'Salvar' clicado.");
-
             Item novoItem = criarItemDeCampos(comboTipo, campoId, campoCor, campoLoja, comboConservacao, campoTamanhoNum, comboTamanhoEnum);
 
             if (novoItem == null) {
-                System.out.println("[DEBUG] Item inválido (null). Nada foi salvo.");
                 return;
             }
 
-            System.out.println("[DEBUG] Item criado: " + novoItem.getId());
-
             listaItens.add(novoItem);
 
-            System.out.println("[DEBUG] Tentando salvar em arquivo: " + arquivo.getAbsolutePath());
             salvaItensArquivo(listaItens);
-            System.out.println("[DEBUG] Item salvo com sucesso.");
 
             adicionarCartaoItem(novoItem);
             painelCartoes.revalidate();
@@ -226,16 +218,11 @@ public class PainelItem extends JPanel {
     }
 
     private void salvaItensArquivo(List<Item> itens) {
-        try {
-            FileOutputStream fos = new FileOutputStream(arquivo);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
+        try (FileOutputStream fos = new FileOutputStream(arquivo);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(itens);
-            oos.close();
-            fos.close();
-            System.out.println("Arquivo salvo em: " + arquivo.getAbsolutePath());
         } catch (Exception e) {
-            System.out.println("Erro ao salvar:");
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao salvar: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -244,21 +231,15 @@ public class PainelItem extends JPanel {
     private List<Item> carregaItensArquivo() {
         List<Item> itens = new ArrayList<>();
 
-        if (!arquivo.exists()) {
-            System.out.println("Arquivo ainda não existe.");
+        if (arquivo.exists() == false) {
             return itens;
         }
 
-        try {
-            FileInputStream fis = new FileInputStream(arquivo);
-            ObjectInputStream ois = new ObjectInputStream(fis);
+        try (FileInputStream fis = new FileInputStream(arquivo);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
             itens = (List<Item>) ois.readObject();
-            ois.close();
-            fis.close();
-            System.out.println("Itens carregados do arquivo.");
         } catch (Exception e) {
-            System.out.println("Erro ao carregar:");
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao carregar: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
 
         return itens;
