@@ -1,20 +1,19 @@
 package ufc.dc.tp1.app.itens.vestuário;
 
-import java.io.Serializable;
-
+import java.time.LocalDate;
 import ufc.dc.tp1.app.exceptions.DevolucaoSemEmprestimoException;
 import ufc.dc.tp1.app.exceptions.VestimentaJaEmprestadoException;
 import ufc.dc.tp1.app.itens.IEmprestavel;
 import ufc.dc.tp1.app.itens.Item;
-import ufc.dc.tp1.app.itens.enums.Conservacao;
 import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
+import ufc.dc.tp1.app.itens.enums.Conservacao;
 
-public class VestimentaCalcado extends Item implements IEmprestavel, Serializable {
+public class VestimentaCalcado extends Item implements IEmprestavel {
 	private static final long serialVersionUID = 1L;
 	
-	private int tamanho;
+	private final int tamanho;
 	private boolean emprestada = false;
-	private int diasDeEmprestimo = 0;
+	private LocalDate dataDeEmprestimo = null;
 
 	public VestimentaCalcado(String id, String cor, String loja, Conservacao conservacao, int tamanho) {
 		super(id, cor, loja, conservacao, CategoriaRoupa.CALÇADO);
@@ -25,38 +24,38 @@ public class VestimentaCalcado extends Item implements IEmprestavel, Serializabl
 		return tamanho;
 	}
 
-	@Override
+		@Override
 	public void registrarEmprestimo() throws VestimentaJaEmprestadoException {
 		if(emprestada == true) throw new VestimentaJaEmprestadoException(getId());
 		
 		emprestada = true;
-		diasDeEmprestimo = 0;
+		dataDeEmprestimo = LocalDate.now();
 	}
 
 	@Override
 	public int quantidadeDeDiasDesdeOEmprestimo() {
 		if(emprestada == true) {
-			return diasDeEmprestimo;
+			return LocalDate.now().getDayOfYear() - getDataDeEmprestimo().getDayOfYear();
 		}
-		return -1;		
+		return 0;		
 	}
 
 	@Override
 	public void registrarDevolucao() throws DevolucaoSemEmprestimoException {
 		if(emprestada == false) throw new DevolucaoSemEmprestimoException(getId());
 		emprestada = false;
-		diasDeEmprestimo = 0;
+		dataDeEmprestimo = null;
 	}
 	
 	@Override
 	public boolean isEmprestada() {
 		return emprestada;
 	}
-	
+
+
 	@Override
-	public String toString() {
-		return "Item [id=" + getId() + ", cor=" + getCor() + ", lojaOrigem=" + getLojaOrigem() + ", conservacao=" + getConservacao()
-				+ ", parteDoCorpo=" + getCategoria() + ", tamanho= " + getTamanho() + "]";
+	public LocalDate getDataDeEmprestimo() {
+		return dataDeEmprestimo;
 	}
 	
 }

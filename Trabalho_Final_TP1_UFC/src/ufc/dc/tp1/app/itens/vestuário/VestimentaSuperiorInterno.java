@@ -1,22 +1,21 @@
 package ufc.dc.tp1.app.itens.vestuário;
 
-import java.io.Serializable;
-
+import java.time.LocalDate;
 import ufc.dc.tp1.app.exceptions.DevolucaoSemEmprestimoException;
 import ufc.dc.tp1.app.exceptions.VestimentaJaEmprestadoException;
 import ufc.dc.tp1.app.itens.IEmprestavel;
 import ufc.dc.tp1.app.itens.ILavavel;
 import ufc.dc.tp1.app.itens.Item;
-import ufc.dc.tp1.app.itens.enums.Conservacao;
 import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
+import ufc.dc.tp1.app.itens.enums.Conservacao;
 import ufc.dc.tp1.app.itens.enums.Tamanho;
 
-public class VestimentaSuperiorInterno extends Item implements IEmprestavel, ILavavel, VestimentaTamanhoEnum, Serializable {
+public class VestimentaSuperiorInterno extends Item implements IEmprestavel, ILavavel, VestimentaTamanhoEnum {
 	private static final long serialVersionUID = 1L;
 	
-	private Tamanho tamanho;
+	private final Tamanho tamanho;
 	private boolean emprestada = false;
-	private int diasDeEmprestimo = 0;
+	private LocalDate dataDeEmprestimo = null;
 	private boolean lavada = true;
     private int numeroLavagens = 0;
 
@@ -35,27 +34,32 @@ public class VestimentaSuperiorInterno extends Item implements IEmprestavel, ILa
 		if(emprestada == true) throw new VestimentaJaEmprestadoException(getId());
 		
 		emprestada = true;
-		diasDeEmprestimo = 0;
+		dataDeEmprestimo = LocalDate.now();
 	}
 
 	@Override
 	public int quantidadeDeDiasDesdeOEmprestimo() {
 		if(emprestada == true) {
-			return diasDeEmprestimo;
+			return LocalDate.now().getDayOfYear() - getDataDeEmprestimo().getDayOfYear();
 		}
-		return -1;		
+		return 0;		
 	}
 
 	@Override
 	public void registrarDevolucao() throws DevolucaoSemEmprestimoException {
 		if(emprestada == false) throw new DevolucaoSemEmprestimoException(getId());
 		emprestada = false;
-		diasDeEmprestimo = 0;
+		dataDeEmprestimo = null;
 	}
 	
 	@Override
 	public boolean isEmprestada() {
 		return emprestada;
+	}
+
+	@Override
+	public LocalDate getDataDeEmprestimo() {
+		return dataDeEmprestimo;
 	}
 
 	@Override
