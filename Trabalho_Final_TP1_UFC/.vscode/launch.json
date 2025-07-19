@@ -2,6 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "JanelaPrincipal",
+      "request": "launch",
+      "mainClass": "ufc.dc.tp1.app.gui.JanelaPrincipal",
+      "projectName": "Trabalho_Final_TP1_UFC"
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
