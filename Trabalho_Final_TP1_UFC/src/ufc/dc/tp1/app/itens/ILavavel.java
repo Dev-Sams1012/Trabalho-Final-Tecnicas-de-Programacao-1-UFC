@@ -1,7 +1,11 @@
 package ufc.dc.tp1.app.itens;
 
 public interface ILavavel {
-	void registrarLavagem();
+	public void registrarLavagem();
 	
-	int getNumeroLavagens();
+	public int getNumeroLavagens();
+	
+	public void usouItem();
+	
+	public boolean isLavada();
 }

@@ -1,16 +1,21 @@
 package ufc.dc.tp1.app.itens;
 
-import ufc.dc.tp1.app.itens.enums.Conservação;
+import ufc.dc.tp1.app.itens.enums.Conservacao;
+
+import java.io.Serializable;
+
 import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
 
-public abstract class Item {
+public abstract class Item implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private String id;
 	private String cor;
 	private String lojaOrigem;
-	private Conservação conservacao;
+	private Conservacao conservacao;
 	private CategoriaRoupa categoria;
 
-	public Item(String id, String cor, String loja, Conservação conservacao, CategoriaRoupa categoria) {
+	public Item(String id, String cor, String loja, Conservacao conservacao, CategoriaRoupa categoria) {
 		if (id == null || id.isBlank()) throw new IllegalArgumentException("ID não pode ser nulo ou vazio.");
 		if (cor == null || cor.isBlank()) throw new IllegalArgumentException("Cor não pode ser nula ou vazia.");
 		if (loja == null || loja.isBlank()) throw new IllegalArgumentException("Loja não pode ser nula ou vazia.");
@@ -36,7 +41,7 @@ public abstract class Item {
 		return lojaOrigem;
 	}
 
-	public Conservação getConservacao() {
+	public Conservacao getConservacao() {
 		return conservacao;
 	}
 	

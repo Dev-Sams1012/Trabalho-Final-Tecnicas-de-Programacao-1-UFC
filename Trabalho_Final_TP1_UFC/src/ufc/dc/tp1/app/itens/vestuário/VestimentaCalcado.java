@@ -1,18 +1,22 @@
 package ufc.dc.tp1.app.itens.vestuário;
 
+import java.io.Serializable;
+
 import ufc.dc.tp1.app.exceptions.DevolucaoSemEmprestimoException;
+import ufc.dc.tp1.app.exceptions.VestimentaJaEmprestadoException;
 import ufc.dc.tp1.app.itens.IEmprestavel;
 import ufc.dc.tp1.app.itens.Item;
-import ufc.dc.tp1.app.itens.enums.Conservação;
+import ufc.dc.tp1.app.itens.enums.Conservacao;
 import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
 
-public abstract class VestimentaCalçado extends Item implements IEmprestavel {
+public class VestimentaCalcado extends Item implements IEmprestavel, Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private int tamanho;
+	private boolean emprestada = false;
 	private int diasDeEmprestimo = 0;
-    private boolean emprestada = false;
 
-	public VestimentaCalçado(String id, String cor, String loja, Conservação conservacao, int tamanho) {
+	public VestimentaCalcado(String id, String cor, String loja, Conservacao conservacao, int tamanho) {
 		super(id, cor, loja, conservacao, CategoriaRoupa.CALÇADO);
 		this.tamanho = tamanho;
 	}
@@ -22,7 +26,9 @@ public abstract class VestimentaCalçado extends Item implements IEmprestavel {
 	}
 
 	@Override
-	public void registrarEmprestimo() {
+	public void registrarEmprestimo() throws VestimentaJaEmprestadoException {
+		if(emprestada == true) throw new VestimentaJaEmprestadoException(getId());
+		
 		emprestada = true;
 		diasDeEmprestimo = 0;
 	}
@@ -40,6 +46,11 @@ public abstract class VestimentaCalçado extends Item implements IEmprestavel {
 		if(emprestada == false) throw new DevolucaoSemEmprestimoException(getId());
 		emprestada = false;
 		diasDeEmprestimo = 0;
+	}
+	
+	@Override
+	public boolean isEmprestada() {
+		return emprestada;
 	}
 	
 	@Override

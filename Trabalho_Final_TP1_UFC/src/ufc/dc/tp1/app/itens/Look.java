@@ -1,5 +1,6 @@
 package ufc.dc.tp1.app.itens;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +10,11 @@ import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
 
 public class Look {
 	private Map<CategoriaRoupa, Item> roupas;
-	private List<UtilizaçãoDeLook> utilização;
+	private List<UtilizacaoDeLook> utilizacao;
 	
 	public Look() {
 		this.roupas = new HashMap<>();
-		this.utilização = new ArrayList<>();
+		this.utilizacao = new ArrayList<>();
 	}
 	
 	public void montarLook(Item... itens) {
@@ -21,7 +22,7 @@ public class Look {
 
 	    for (Item item : itens) {
 	        if (item != null && item.getCategoria() != null) {
-	            if (!roupas.containsKey(item.getCategoria())) {
+	            if (roupas.containsKey(item.getCategoria()) == false) {
 	                roupas.put(item.getCategoria(), item);
 	            }
 	        }
@@ -38,41 +39,25 @@ public class Look {
         return roupas.remove(parte) != null;
     }
 	
-	public void registrarUso(String data, String descricao) {
-	    if (data != null && descricao != null && !data.isBlank()) {
-	        utilização.add(new UtilizaçãoDeLook(data, descricao));
+	public void registrarUso(LocalDate data, String descricao) {
+	    if (data != null && descricao != null) {
+	    	utilizacao.add(new UtilizacaoDeLook(data, descricao));
+	    }
+	}
+	
+	public void registrarUso(String descricao) {
+	    if (descricao != null) {
+	    	utilizacao.add(new UtilizacaoDeLook(LocalDate.now(), descricao));
 	    }
 	}
 
 	public int getNumeroDeUsos() {
-		return utilização.size();
+		return utilizacao.size();
 	}
 	
-	@Override
-	public String toString() {
-	    StringBuilder sb = new StringBuilder();
-	    sb.append("Look:\n");
+	public List<UtilizacaoDeLook> getHistoricoDeUsos() {
+        return new ArrayList<>(utilizacao);
+    }
 
-	    if (roupas.isEmpty()) {
-	        sb.append("  (Nenhuma peça cadastrada neste look)\n");
-	    } else {
-	        for (Map.Entry<CategoriaRoupa, Item> entry : roupas.entrySet()) {
-	            sb.append("  - ").append(entry.getKey()).append(": ")
-	              .append(entry.getValue()).append("\n");
-	        }
-	    }
-
-	    sb.append("\nUtilizações: ").append(utilização.size()).append("\n");
-
-	    if (!utilização.isEmpty()) {
-	        for (UtilizaçãoDeLook uso : utilização) {
-	            sb.append("  • ").append(uso).append("\n");
-	        }
-	    }
-
-	    return sb.toString();
-	}
-	
-	
 }
  

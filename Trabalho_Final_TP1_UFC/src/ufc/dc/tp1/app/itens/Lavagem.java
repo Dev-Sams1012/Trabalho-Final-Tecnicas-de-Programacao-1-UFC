@@ -2,25 +2,35 @@ package ufc.dc.tp1.app.itens;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Lavagem {
-	private String data;
+	private LocalDate data;
 	private List<ILavavel> itensLavados;
 	
-	public Lavagem(String data) {
-        if (data == null || data.isBlank()) {
-            throw new IllegalArgumentException("Data da lavagem não pode ser nula ou vazia.");
-        }
+	
+	public Lavagem(LocalDate data) {
+        if (data == null) throw new IllegalArgumentException("Data da lavagem não pode ser nula.");
+            
         this.data = data;
-        this.itensLavados = new ArrayList<>();
+        
+        itensLavados = new ArrayList<>();
 	}
 	
-	public List<Item> lavarItens(List<Item> itens) {
+	public Lavagem() {     
+		this.data = LocalDate.now();
+		
+		this.itensLavados = new ArrayList<>();
+	}
+	
+	public List<Item> lavarItens(Item... itens ) {
+		if(itens == null || itens.length == 0) throw new IllegalArgumentException("Os itens não podem ser nulos.");
+		
         List<Item> itensNaoLavaveis = new ArrayList<>();
 
         for (Item item : itens) {
-            if (item instanceof ILavavel) {
-                ILavavel lavavel = (ILavavel) item;
+            if (item instanceof ILavavel lavavel) {
                 lavavel.registrarLavagem();
                 itensLavados.add(lavavel);
             } else {
@@ -30,10 +40,15 @@ public class Lavagem {
 
         return itensNaoLavaveis;
     }
-
 	
-	public String getData() {
+	public LocalDate getData() {
 		return data;
+	}
+	
+	public String getDataToString() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+		
+		return data.format(formatter);
 	}
 	
 	public List<ILavavel> getListaDeLavagem(){
@@ -42,8 +57,10 @@ public class Lavagem {
 	
 	@Override
 	public String toString() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+		
 	    StringBuilder sb = new StringBuilder();
-	    sb.append("Lavagem realizada em: ").append(data).append("\n");
+	    sb.append("Lavagem realizada em: ").append(data.format(formatter)).append("\n");
 	    sb.append("Itens lavados:\n");
 
 	    if (itensLavados.isEmpty()) {

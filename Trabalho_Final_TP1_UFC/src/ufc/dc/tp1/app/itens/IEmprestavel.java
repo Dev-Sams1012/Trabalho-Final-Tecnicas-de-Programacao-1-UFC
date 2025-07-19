@@ -1,11 +1,14 @@
 package ufc.dc.tp1.app.itens;
 
 import ufc.dc.tp1.app.exceptions.DevolucaoSemEmprestimoException;
+import ufc.dc.tp1.app.exceptions.VestimentaJaEmprestadoException;
 
 public interface IEmprestavel {
-	public void registrarEmprestimo();
+	public void registrarEmprestimo() throws VestimentaJaEmprestadoException;
 	
 	public int  quantidadeDeDiasDesdeOEmprestimo();
 	
 	public void registrarDevolucao() throws DevolucaoSemEmprestimoException;
+	
+	public boolean isEmprestada();
 }
