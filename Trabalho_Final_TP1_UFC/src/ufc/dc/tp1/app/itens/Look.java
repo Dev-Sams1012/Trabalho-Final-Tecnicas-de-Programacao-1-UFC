@@ -1,5 +1,6 @@
 package ufc.dc.tp1.app.itens;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,17 +9,31 @@ import java.util.Map;
 
 import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
 
-public class Look {
-	private Map<CategoriaRoupa, Item> roupas;
-	private List<UtilizacaoDeLook> utilizacao;
+public class Look implements Serializable {
+	private final Map<CategoriaRoupa, Item> roupas;
+	private final List<UtilizacaoDeLook> utilizacao;
+	private final String nome;
 	
-	public Look() {
+	public Look(String nome) {
 		this.roupas = new HashMap<>();
 		this.utilizacao = new ArrayList<>();
+		this.nome = nome;
 	}
 	
 	public void montarLook(Item... itens) {
 	    if (itens == null || itens.length == 0) return;
+
+	    for (Item item : itens) {
+	        if (item != null && item.getCategoria() != null) {
+	            if (roupas.containsKey(item.getCategoria()) == false) {
+	                roupas.put(item.getCategoria(), item);
+	            }
+	        }
+	    }
+	}
+
+	public void montarLook(List<Item> itens) {
+		if (itens == null || itens.isEmpty()) return;
 
 	    for (Item item : itens) {
 	        if (item != null && item.getCategoria() != null) {
@@ -58,6 +73,19 @@ public class Look {
 	public List<UtilizacaoDeLook> getHistoricoDeUsos() {
         return new ArrayList<>(utilizacao);
     }
+
+	public Map<CategoriaRoupa, Item> getRoupas() {
+		return new HashMap<>(roupas);
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	@Override
+	public String toString() {
+    	return "Look #" + hashCode();
+	}
 
 }
  
