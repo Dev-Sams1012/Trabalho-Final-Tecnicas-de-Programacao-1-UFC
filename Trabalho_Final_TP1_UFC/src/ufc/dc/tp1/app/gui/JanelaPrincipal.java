@@ -1,6 +1,7 @@
 package ufc.dc.tp1.app.gui;
 import java.awt.*;
-import javax.swing.*;    
+import javax.swing.*;
+  
 public class JanelaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
 
@@ -14,11 +15,12 @@ public class JanelaPrincipal extends JFrame {
         
         abas.addTab("itens", new PainelItem());
         abas.addTab("looks", new PainelLook());
+        abas.addTab("Empréstimo", new PainelEmprestimo());
         add(abas, BorderLayout.CENTER);
         
         setVisible(true);
     }
-	
+	 
     public static void main(String[] args) {
         JanelaPrincipal janela = new JanelaPrincipal();
         janela.setVisible(true);
