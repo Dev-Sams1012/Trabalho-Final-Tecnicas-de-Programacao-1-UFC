@@ -1,10 +1,8 @@
 package ufc.dc.tp1.app.itens;
 
-import ufc.dc.tp1.app.itens.enums.Conservacao;
-
 import java.io.Serializable;
-
 import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
+import ufc.dc.tp1.app.itens.enums.Conservacao;
 
 public abstract class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -50,10 +48,8 @@ public abstract class Item implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return "Item [id= " + id + ", cor= " + cor + ", lojaOrigem= " + lojaOrigem + ", conservacao= " + conservacao
-				+ ", parteDoCorpo= " + categoria + "]";
-	}
-
+    public String toString() {
+        return id + " (" + categoria + ")";
+    }
 	
 }

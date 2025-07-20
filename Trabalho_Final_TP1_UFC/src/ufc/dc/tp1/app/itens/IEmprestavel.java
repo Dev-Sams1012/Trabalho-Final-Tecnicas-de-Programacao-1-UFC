@@ -7,7 +7,7 @@ import ufc.dc.tp1.app.exceptions.VestimentaJaEmprestadoException;
 public interface IEmprestavel {
 	public void registrarEmprestimo() throws VestimentaJaEmprestadoException;
 	
-	public int  quantidadeDeDiasDesdeOEmprestimo();
+	public int quantidadeDeDiasDesdeOEmprestimo();
 
 	public LocalDate getDataDeEmprestimo();
 	

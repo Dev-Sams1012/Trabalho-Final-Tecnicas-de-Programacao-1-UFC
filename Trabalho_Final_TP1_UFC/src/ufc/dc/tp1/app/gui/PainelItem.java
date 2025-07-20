@@ -25,15 +25,15 @@ public class PainelItem extends JPanel {
     public PainelItem() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
-        setBackground(new Color(240, 240, 240));
+        setBackground(new Color(175, 215, 255));
     
         JButton botaoAdicionarItem = new JButton("+ Adicionar Item");
         botaoAdicionarItem.setFocusPainted(false);
         botaoAdicionarItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        botaoAdicionarItem.addActionListener(e -> mostrarDialogAdicionar());
+        botaoAdicionarItem.addActionListener(e -> mostrarDialogAdicionarItem());
 
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        painelBotoes.setBackground(new Color(240, 240, 240));
+        painelBotoes.setBackground(new Color(175, 215, 255));
         painelBotoes.add(botaoAdicionarItem);
         add(painelBotoes, BorderLayout.NORTH);
 
@@ -119,19 +119,28 @@ public class PainelItem extends JPanel {
         painelDetalhes.add(new JLabel("Conservação:"));
         painelDetalhes.add(new JLabel(item.getConservacao().toString()));
 
-        if (item instanceof VestimentaCalcado vestimentaCalcado) {
+        if (item instanceof VestimentaTamanhoInt vestimentaTamanhoInt) {
             painelDetalhes.add(new JLabel("Tamanho (numérico):"));
-            painelDetalhes.add(new JLabel(String.valueOf(vestimentaCalcado.getTamanho())));
-        } else if (item instanceof VestimentaSuperiorExterno || item instanceof VestimentaSuperiorInterno || item instanceof VestimentaIntima) {
+            painelDetalhes.add(new JLabel(String.valueOf(vestimentaTamanhoInt.getTamanho())));
+        } else if (item instanceof VestimentaTamanhoEnum vestimentaTamanhoEnum) {
             painelDetalhes.add(new JLabel("Tamanho (padrão):"));
-            painelDetalhes.add(new JLabel(((VestimentaTamanhoEnum)item).getTamanho().toString()));
+            painelDetalhes.add(new JLabel(vestimentaTamanhoEnum.getTamanho().toString()));
         }
+
+        JButton botaoDeletar = new JButton("Deletar Item");
+        botaoDeletar.setFocusPainted(false);
+        botaoDeletar.addActionListener(e -> deletaItem(item));
         
         dialogDetalhes.add(new JScrollPane(painelDetalhes));
+        dialogDetalhes.add(botaoDeletar, BorderLayout.SOUTH);
         dialogDetalhes.setVisible(true);
     }
 
-    private void mostrarDialogAdicionar() {
+    private void deletaItem(Item item) {
+        
+    }
+
+    private void mostrarDialogAdicionarItem() {
         dialogAdicionar = new JDialog();
         dialogAdicionar.setTitle("Adicionar Novo Item");
         dialogAdicionar.setSize(400, 350);
@@ -192,6 +201,8 @@ public class PainelItem extends JPanel {
             painelFormulario.repaint();
         });
 
+        botaoCancelar.addActionListener(e -> dialogAdicionar.dispose());
+        
         botaoSalvar.addActionListener(e -> {
             Item novoItem = criarItemDeCampos(comboTipo, campoId, campoCor, campoLoja, comboConservacao, campoTamanhoNum, comboTamanhoEnum);
 
@@ -209,9 +220,6 @@ public class PainelItem extends JPanel {
             dialogAdicionar.dispose();
         });
 
-
-        botaoCancelar.addActionListener(e -> dialogAdicionar.dispose());
-
         dialogAdicionar.add(painelFormulario, BorderLayout.CENTER);
         dialogAdicionar.add(painelBotoes, BorderLayout.SOUTH);
         dialogAdicionar.setVisible(true);
@@ -226,7 +234,6 @@ public class PainelItem extends JPanel {
         }
     }
 
-    
     @SuppressWarnings("unchecked")
     private List<Item> carregaItensArquivo() {
         List<Item> itens = new ArrayList<>();
@@ -245,7 +252,6 @@ public class PainelItem extends JPanel {
         return itens;
     }
 
-
     private Item criarItemDeCampos(
     	    JComboBox<CategoriaRoupa> comboTipo,
     	    JTextField campoId,
@@ -261,7 +267,6 @@ public class PainelItem extends JPanel {
     	    String loja = campoLoja.getText().trim();
     	    Conservacao conservacao = (Conservacao) comboConservacao.getSelectedItem();
 
-    	    // Validação básica de campos obrigatórios
     	    if (id.isEmpty() || cor.isEmpty() || loja.isEmpty()) {
     	        JOptionPane.showMessageDialog(dialogAdicionar,
     	            "Por favor, preencha todos os campos obrigatórios.",
@@ -273,7 +278,7 @@ public class PainelItem extends JPanel {
     	    try {
     	        if (tipo == CategoriaRoupa.CALÇADO) {
     	            String tamanhoStr = campoTamanhoNum.getText().trim();
-    	            if (tamanhoStr.isEmpty()) {
+    	            if (tamanhoStr.isEmpty() || Integer.parseInt(tamanhoStr) <= 0) {
     	                JOptionPane.showMessageDialog(dialogAdicionar,
     	                    "Informe o tamanho numérico do calçado.",
     	                    "Campo obrigatório",
@@ -287,7 +292,7 @@ public class PainelItem extends JPanel {
 
     	        if (tipo == CategoriaRoupa.INFERIOR) {
     	            String tamanhoStr = campoTamanhoNum.getText().trim();
-    	            if (tamanhoStr.isEmpty()) {
+    	            if (tamanhoStr.isEmpty() || Integer.parseInt(tamanhoStr) <= 0) {
     	                JOptionPane.showMessageDialog(dialogAdicionar,
     	                    "Informe o tamanho numérico da peça inferior.",
     	                    "Campo obrigatório",
