@@ -9,9 +9,7 @@ import ufc.dc.tp1.app.itens.Item;
 import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
 import ufc.dc.tp1.app.itens.enums.Conservacao;
 
-public class VestimentaInferior extends Item implements IEmprestavel, ILavavel {
-	private static final long serialVersionUID = 1L;
-	
+public class VestimentaInferior extends Item implements IEmprestavel, ILavavel, VestimentaTamanhoInt {
 	private final int tamanho;
 	private boolean emprestada = false;
 	private LocalDate dataDeEmprestimo = null;
@@ -23,11 +21,12 @@ public class VestimentaInferior extends Item implements IEmprestavel, ILavavel {
 		this.tamanho = tamanho;
 	}
 	
+	@Override
 	public int getTamanho() {
 		return tamanho;
 	}
 
-		@Override
+	@Override
 	public void registrarEmprestimo() throws VestimentaJaEmprestadoException {
 		if(emprestada == true) throw new VestimentaJaEmprestadoException(getId());
 		

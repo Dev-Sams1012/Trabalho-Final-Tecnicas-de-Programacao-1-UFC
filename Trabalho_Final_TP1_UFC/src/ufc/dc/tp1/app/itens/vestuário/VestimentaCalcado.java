@@ -8,9 +8,7 @@ import ufc.dc.tp1.app.itens.Item;
 import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
 import ufc.dc.tp1.app.itens.enums.Conservacao;
 
-public class VestimentaCalcado extends Item implements IEmprestavel {
-	private static final long serialVersionUID = 1L;
-	
+public class VestimentaCalcado extends Item implements IEmprestavel, VestimentaTamanhoInt {
 	private final int tamanho;
 	private boolean emprestada = false;
 	private LocalDate dataDeEmprestimo = null;
@@ -20,6 +18,7 @@ public class VestimentaCalcado extends Item implements IEmprestavel {
 		this.tamanho = tamanho;
 	}
 	
+	@Override
 	public int getTamanho() {
 		return tamanho;
 	}

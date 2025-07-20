@@ -9,8 +9,6 @@ import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
 import ufc.dc.tp1.app.itens.enums.Conservacao;
 
 public class VestimentaCabeca extends Item implements IEmprestavel {
-	private static final long serialVersionUID = 1L;
-	
 	private LocalDate dataDeEmprestimo = null;
     private boolean emprestada = false;
 

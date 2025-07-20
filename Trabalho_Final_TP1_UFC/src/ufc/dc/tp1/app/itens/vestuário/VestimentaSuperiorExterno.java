@@ -11,8 +11,6 @@ import ufc.dc.tp1.app.itens.enums.Conservacao;
 import ufc.dc.tp1.app.itens.enums.Tamanho;
 
 public class VestimentaSuperiorExterno extends Item implements IEmprestavel, ILavavel, VestimentaTamanhoEnum {
-	private static final long serialVersionUID = 1L;
-	
 	private final Tamanho tamanho;
 	private boolean emprestada = false;
 	private LocalDate dataDeEmprestimo = null;

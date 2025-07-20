@@ -8,8 +8,6 @@ import ufc.dc.tp1.app.itens.enums.Conservacao;
 import ufc.dc.tp1.app.itens.enums.Tamanho;
 
 public class VestimentaIntima extends Item implements ILavavel, VestimentaTamanhoEnum {
-	private static final long serialVersionUID = 1L;
-	
 	private boolean lavada = true;
     private int numeroLavagens = 0;
     private final Tamanho tamanho;

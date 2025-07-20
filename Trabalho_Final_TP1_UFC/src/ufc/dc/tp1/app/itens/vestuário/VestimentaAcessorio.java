@@ -9,8 +9,6 @@ import ufc.dc.tp1.app.itens.enums.CategoriaRoupa;
 import ufc.dc.tp1.app.itens.enums.Conservacao;
 
 public class VestimentaAcessorio extends Item implements IEmprestavel {
-	private static final long serialVersionUID = 1L;
-	
 	private LocalDate dataDeEmprestimo = null;
     private boolean emprestada = false;
 
@@ -18,7 +16,6 @@ public class VestimentaAcessorio extends Item implements IEmprestavel {
 		super(id, cor, loja, conservacao, CategoriaRoupa.ACESSÓRIO);
 	}
 	
-
 	@Override
 	public void registrarEmprestimo() throws VestimentaJaEmprestadoException {
 		if(emprestada == true) throw new VestimentaJaEmprestadoException(getId());
@@ -46,7 +43,6 @@ public class VestimentaAcessorio extends Item implements IEmprestavel {
 	public boolean isEmprestada() {
 		return emprestada;
 	}
-
 
 	@Override
 	public LocalDate getDataDeEmprestimo() {
